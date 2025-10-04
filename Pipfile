@@ -8,6 +8,7 @@ django = "*"
 djangorestframework = "*"
 dj-database-url = "*"
 whitenoise = "*"
+gunicorn = "*"
 
 [dev-packages]
 
