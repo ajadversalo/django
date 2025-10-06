@@ -1,8 +1,11 @@
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 import dj_database_url  # <--- install this via requirements.txt
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv()
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key")
@@ -57,11 +60,19 @@ WSGI_APPLICATION = 'apitest.wsgi.application'
 # Database
 # Locally → SQLite
 # On Render → DATABASE_URL env var (Supabase or Render Postgres)
+# DATABASES = {
+#     "default": dj_database_url.config(
+#         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+#         conn_max_age=600,
+#         ssl_require=False,
+#     )
+# }
+
 DATABASES = {
     "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        default=os.getenv("DATABASE_URL"),
         conn_max_age=600,
-        ssl_require=False,
+        ssl_require=True,
     )
 }
 
@@ -81,6 +92,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = "/static/"
+STATICFILES_DIRS = []
 STATIC_ROOT = BASE_DIR / "staticfiles" 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
